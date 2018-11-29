@@ -54,23 +54,23 @@
 <div class="container">
 	<h1>国际空间站（ISS）过境</h1>
 </div>
-<div class="container" style="overflow-x: scroll;">
+<div class="container satellite" style="overflow-x: scroll;">
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					推荐度
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					日期
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					持续时间
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					星等
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					星图
 				</td>
 				<td align="center" colspan="6">
@@ -106,23 +106,23 @@
 <div class="container">
 	<h1>天宫二号过境</h1>
 </div>
-<div class="container" style="overflow-x: scroll;">
+<div class="container satellite" style="overflow-x: scroll;">
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					推荐度
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					日期
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					持续时间
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					星等
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2" style="vertical-align: middle">
 					星图
 				</td>
 				<td align="center" colspan="6">
@@ -158,51 +158,60 @@
 <div class="container">
 	<h1>铱星闪光</h1>
 </div>
-<div class="container" style="overflow-x: scroll;">
+<div class="container iridium" style="overflow-x: scroll;">
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2">
 					推荐度
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2">
 					日期
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
-					持续时间
+				<td align="center" rowspan="2">
+					时间
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2">
 					星等
 				</td>
-				<td align="center" rowspan="2" style="vertical-align:middle">
+				<td align="center" rowspan="2">
 					星图
 				</td>
-				<td align="center" colspan="6">
-					升
+				<td align="center" rowspan="2">
+					高度角
 				</td>
-				<td align="center" colspan="6">
-					到达高度10°
+				<td align="center" rowspan="2">
+					方位角
 				</td>
-				<td align="center" colspan="6">
-					上中天
+				<td align="center" rowspan="2">
+					卫星
 				</td>
-				<td align="center" colspan="6">
-					低于高度10°
+				<td align="center" rowspan="2">
+					至闪光中心距离
 				</td>
-				<td align="center" colspan="6">
-					降
+				<td align="center" rowspan="2">
+					闪光中心亮度
 				</td>
-				<td align="center" colspan="6">
-					离开地影
+				<td align="center" rowspan="2">
+					至卫星距离
 				</td>
-				<td align="center" colspan="6">
-					进入地影
+				<td align="center" rowspan="2">
+					与闪光中心线的夹角
+				</td>
+				<td align="center" rowspan="2">
+					产生闪光的天线
+				</td>
+				<td align="center" rowspan="2">
+					太阳高度
+				</td>
+				<td align="center" rowspan="2">
+					对太阳的张角
 				</td>
 			</tr>
 			<tr class="tr">
 			</tr>
 		</thead>
-		<tbody id="TianGong">
+		<tbody id="IridiumFlares">
 		</tbody>
 	</table>
 </div>
@@ -214,7 +223,7 @@ var attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sunAl
 var eventsIridium = ["url", "brightness", "altitude", "azimuth", "satellite", "distanceToFlareCentre", "brightnessAtFlareCentre", "date", "time", "distanceToSatellite", "AngleOffFlareCentre-line", "flareProducingAntenna", "sunAltitude", "angularSeparationFromSun", "image"];
 
 function appendThead() {
-	$(".tr").append('\
+	$(".satellite .tr").append('\
 				<td align="center">\
 					时间\
 				</td>\
@@ -235,7 +244,7 @@ function appendThead() {
 				</td>');
 }
 
-function showData(target) {
+function showData(target, type) {
 	var file = target + ".json";
 	$.ajax(file, {
 		type: "get",
@@ -245,7 +254,7 @@ function showData(target) {
 		},
 		success: function(data, status, xhr) {
 			var obj = JSON.parse(data);
-			obj.forEach(function(ele, index) {
+			if (type == 0) obj.forEach(function(ele, index) {
 				var html = "<td>" + ele[property[8]] + "</td><td>" + ele[property[1]] + "</td><td>" + ele[property[7]] + "</td><td>" + ele[property[2]] + "</td><td><a href='" + ele[property[0]] + "' target='_blank'>查看</a></td>";
 				for (var j = 0; j < 7; j++) {
 					if (ele[property[3]][events[j]]) {
@@ -259,17 +268,26 @@ function showData(target) {
 						}
 					}
 				}
-				if (index <= 3) $("#" + target).append("<tr style='background-color:rgb(0,200,50)'>" + html + "</tr>");
-				else if (ele[property[8]] == 0) $("#" + target).append("<tr style='background-color:rgb(200,100,50)'>" + html + "</tr>");
+				if (index < 3) $("#" + target).append("<tr style='background-color:rgb(0,200,50)'>" + html + "</tr>");
+				else if (ele[property[8]] == 0) $("#" + target).append("<tr style='background-color:rgb(200,200,50)'>" + html + "</tr>");
 				else $("#" + target).append("<tr>" + html + "</tr>");
+			});
+			else obj.forEach(function(ele, index) {
+				var html = "<td>无数据</td><td>" + ele[eventsIridium[7]] + "</td><td>" + ele[eventsIridium[8]] + "</td><td>" + ele[eventsIridium[1]] + "</td><td><a href='" + ele[eventsIridium[0]] + "' target='_blank'>查看</a></td>";
+				var map = [2, 3, 4, 5, 6, 9, 10, 11, 12, 13];
+				for (var j = 0; j < 10; j++) {
+					html += "<td>" + ele[eventsIridium[map[j]]] + "</td>";
+				}
+				$("#" + target).append("<tr>" + html + "</tr>");
 			});
 		}
 	});
 }
 
 for (var i = 0; i < 7; i++) appendThead();
-showData("ISS");
-showData("TianGong");
+showData("ISS", 0);
+showData("TianGong", 0);
+showData("IridiumFlares", 1);
 </script>
 </body>
 </html>

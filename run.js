@@ -1,30 +1,35 @@
-const satellite = require('./satellite.js');
-const iridium = require('./iridium.js');
+const satellite = require('./satellite');
+const iridium = require('./iridium');
 
-const names = ["ISS", "TianGong", "IridiumFlares"];
-const count = 4;
-var database = [];
+
+var location = [39.9042, 116.4074, "%E5%8C%97%E4%BA%AC%E5%B8%82", 52, "ChST"];
+//COOKIE需要先通过浏览器调到中文
+
+//const names = ["ISS", "TianGong", "IridiumFlares"];
+//const count = 4;
 //https://www.heavens-above.com/PassSummary.aspx?satid=41765&lat=0&lng=0&loc=Unspecified&alt=0&tz=UCT
 
-//satellite.getTable(database, 25544, 0); //ISS
-satellite.getTable(database, 41765, 0); //Tiangong
-//iridium.getTable(database, "", 0);
-
-//console.log(database);
+satellite.getTable({
+	target: 25544,
+	count: 4,
+	root: "./",
+	counter: 0,
+	opt: 0
+}); //ISS
 /*
-评价参数：
+satellite.getTable({
+	target: 41765,
+	count: 4,
+	root: "./",
+	counter: 0,
+	opt: 0
+}); //Tiangong
 
-最高点星等（越亮越好）
-
-x>-2 0
--(x+2)*50
-x<-4 100
-
-最高点高度角（越高越好）
-x/90*100
-
-最高点时间（避免凌晨）
-17-23 100
-
-总持续时间
+iridium.getTable({
+	target: 25544,
+	count: 4,
+	root: "./",
+	counter: 0,
+	opt: 0
+});
 */
