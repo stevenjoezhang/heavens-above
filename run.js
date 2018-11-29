@@ -6,11 +6,11 @@ const count = 4;
 var database = [];
 //https://www.heavens-above.com/PassSummary.aspx?satid=41765&lat=0&lng=0&loc=Unspecified&alt=0&tz=UCT
 
-//satellite.getTable(database, 25544, 0);
-//satellite.getTable(database, 41765, 0);
-iridium.getTable(database, "", 0);
+//satellite.getTable(database, 25544, 0); //ISS
+satellite.getTable(database, 41765, 0); //Tiangong
+//iridium.getTable(database, "", 0);
 
-console.log(database);
+//console.log(database);
 /*
 评价参数：
 
@@ -27,5 +27,4 @@ x/90*100
 17-23 100
 
 总持续时间
-
 */

@@ -60,7 +60,7 @@ function getTable(database, target, counter, opt) {
 				}, 5000);
 			}
 			else {
-				fs.appendFile("satellite" + target + ".json", JSON.stringify(database), function(err) {
+				fs.appendFile("iridium" + target + ".json", JSON.stringify(database), function(err) {
 					if (err) console.log(err);
 				});
 			}

@@ -7,7 +7,7 @@ You may need to install some dependency packages using npm.
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 ```bash
 # Clone this repository
-git clone https://github.com/stevenjoezhang/heavens-above
+git clone https://github.com/stevenjoezhang/heavens-above.git
 # Go into the repository
 cd heavens-above
 # Install dependencies
@@ -17,7 +17,8 @@ node run.js
 ```
 
 ## Credits
-* [Mimi](http://zsq.im) Developer of this project.
+* [Mimi](https://zhangshuqiao.org) Developer of this project.  
+* Inspired by https://github.com/chengxinlun/haQuery
 
 ## License
 Released under the GNU General Public License v3  
