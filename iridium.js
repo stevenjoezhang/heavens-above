@@ -66,7 +66,7 @@ function getTable(config) {
 			});
 			$("form").find("input").each(function() {
 				if ($(this).attr("name") == "ctl00$cph1$btnPrev" || $(this).attr("name") == "ctl00$cph1$visible") return;
-				else next += "&" + $(this).attr("name") + "=" + $(this).attr("value");
+				else next += `&${$(this).attr("name")}=${$(this).attr("value")}`;
 			});
 			next += "&ctl00$cph1$visible=radioVisible";
 			next = next.replace(/\+/g, "%2B").replace(/\//g, "%2F")//.replace(/\$/g, "%24");

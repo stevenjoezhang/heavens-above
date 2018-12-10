@@ -3,8 +3,10 @@
 Scripts for scraping the Heavens Above website. Based on Node.js.  
 You may need to install some dependency packages using npm.
 
+**WARNING: DO NOT SUPPORT IE.**
+
 ## To Use
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 ```bash
 # Clone this repository
 git clone https://github.com/stevenjoezhang/heavens-above.git

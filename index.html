@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0"/>
 <title>YAS</title>
 <link rel="shortcut icon" href="/favicon.ico"/>
-<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.jpg">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.jpg"/>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"/>
 <style>
 	td {
 		white-space: nowrap;
@@ -16,8 +16,6 @@
 </style>
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.9.1/hls.min.js"></script>
-<script copy="1" src="/js/galaxymimi.js"></script>
 <div class="navbar navbar-default">
 	<div class="container">
 		<div class="navbar-header">
@@ -42,7 +40,7 @@
 							<img id="qrcode" style="width: 100%"/>
 							<script>
 								if (/mobile/i.test(navigator.userAgent) || /mobile/i.test(navigator.appVersion)) $("#drop").hide(); //window.hasOwnProperty("ontouchstart")
-								$("#qrcode").attr("src", "/api/qrcode?margin=1&text=" + location.href);
+								$("#qrcode").attr("src", "https://api.galaxymimi.com/qrcode?margin=1&text=" + location.href);
 							</script>
 						</li>
 					</ul>
@@ -98,7 +96,7 @@
 			<tr class="tr">
 			</tr>
 		</thead>
-		<tbody id="ISS">
+		<tbody id="satellite25544">
 		</tbody>
 	</table>
 </div>
@@ -150,7 +148,7 @@
 			<tr class="tr">
 			</tr>
 		</thead>
-		<tbody id="TianGong">
+		<tbody id="satellite41765">
 		</tbody>
 	</table>
 </div>
@@ -216,11 +214,11 @@
 	</table>
 </div>
 <script>
-var names = ["ISS", "TianGong", "IridiumFlares"];
-var property = ["url", "date", "brightness", "events", "passType", "image", "scoreData", "exist", "score"];
+//var names = ["ISS", "TianGong", "IridiumFlares"];
+var property = ["url", "date", "brightness", "events", "passType", "image", "scoreData", "exist", "score", "id"];
 var events = ["rise", "reachAltitude10deg", "highestPoint", "dropBelowAltitude10deg", "set", "exitShadow", "enterShadow"];
 var attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sunAltitude"];
-var eventsIridium = ["url", "brightness", "altitude", "azimuth", "satellite", "distanceToFlareCentre", "brightnessAtFlareCentre", "date", "time", "distanceToSatellite", "AngleOffFlareCentre-line", "flareProducingAntenna", "sunAltitude", "angularSeparationFromSun", "image"];
+var eventsIridium = ["brightness", "altitude", "azimuth", "satellite", "distanceToFlareCentre", "brightnessAtFlareCentre", "date", "time", "distanceToSatellite", "AngleOffFlareCentre-line", "flareProducingAntenna", "sunAltitude", "angularSeparationFromSun", "image", "id"];
 
 function appendThead() {
 	$(".satellite .tr").append('\
@@ -245,7 +243,7 @@ function appendThead() {
 }
 
 function showData(target, type) {
-	var file = target + ".json";
+	var file = target + "/index.json";
 	$.ajax(file, {
 		type: "get",
 		dataType: "text",
@@ -255,11 +253,17 @@ function showData(target, type) {
 		success: function(data, status, xhr) {
 			var obj = JSON.parse(data);
 			if (type == 0) obj.forEach(function(ele, index) {
-				var html = "<td>" + ele[property[8]] + "</td><td>" + ele[property[1]] + "</td><td>" + ele[property[7]] + "</td><td>" + ele[property[2]] + "</td><td><a href='" + ele[property[0]] + "' target='_blank'>查看</a></td>";
+				var html = `<td>${ele[property[8]]}</td>
+					<td>${ele[property[1]]}</td>
+					<td>${ele[property[7]]}</td>
+					<td>${ele[property[2]]}</td>
+					<td>
+						<a href='download.php?target=${target}&id=${ele[property[9]]}' target='_blank'>查看</a>
+					</td>`;
 				for (var j = 0; j < 7; j++) {
 					if (ele[property[3]][events[j]]) {
 						for (var k in ele[property[3]][events[j]]) {
-							html += "<td>" + ele[property[3]][events[j]][k] + "</td>";
+							html += `<td>${ele[property[3]][events[j]][k]}</td>`;
 						}
 					}
 					else {
@@ -268,25 +272,31 @@ function showData(target, type) {
 						}
 					}
 				}
-				if (index < 3) $("#" + target).append("<tr style='background-color:rgb(0,200,50)'>" + html + "</tr>");
-				else if (ele[property[8]] == 0) $("#" + target).append("<tr style='background-color:rgb(200,200,50)'>" + html + "</tr>");
-				else $("#" + target).append("<tr>" + html + "</tr>");
+				if (index < 3) $("#" + target).append(`<tr style='background-color:rgb(0,200,50)'>${html}</tr>`);
+				else if (ele[property[8]] == 0) $("#" + target).append(`<tr style='background-color:rgb(200,200,50)'>${html}</tr>`);
+				else $("#" + target).append(`<tr>${html}</tr>`);
 			});
 			else obj.forEach(function(ele, index) {
-				var html = "<td>无数据</td><td>" + ele[eventsIridium[7]] + "</td><td>" + ele[eventsIridium[8]] + "</td><td>" + ele[eventsIridium[1]] + "</td><td><a href='" + ele[eventsIridium[0]] + "' target='_blank'>查看</a></td>";
-				var map = [2, 3, 4, 5, 6, 9, 10, 11, 12, 13];
+				var html = `<td>N/A</td>
+					<td>${ele[eventsIridium[6]]}</td>
+					<td>${ele[eventsIridium[7]]}</td>
+					<td>${ele[eventsIridium[0]]}</td>
+					<td>
+						<a href='download.php?target=${target}&id=${ele[eventsIridium[14]]}' target='_blank'>查看</a>
+					</td>`;
+				var map = [1, 2, 3, 4, 5, 8, 9, 10, 11, 12];
 				for (var j = 0; j < 10; j++) {
-					html += "<td>" + ele[eventsIridium[map[j]]] + "</td>";
+					html += `<td>${ele[eventsIridium[map[j]]]}</td>`;
 				}
-				$("#" + target).append("<tr>" + html + "</tr>");
+				$("#" + target).append(`<tr>${html}</tr>`);
 			});
 		}
 	});
 }
 
 for (var i = 0; i < 7; i++) appendThead();
-showData("ISS", 0);
-showData("TianGong", 0);
+showData("satellite25544", 0);
+showData("satellite41765", 0);
 showData("IridiumFlares", 1);
 </script>
 </body>

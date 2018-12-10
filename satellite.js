@@ -25,9 +25,9 @@ var compare = [
 var weight = [9.5, 6, 6.5, 6.5];
 
 function getTable(config) {
-	var basedir = config.root + "satellite" + config.target + "/";
+	var basedir = `${config.root}satellite${config.target}/`;
 	if (config.counter == 0) {
-		options = base.get_options("PassSummary.aspx?satid=" + config.target + "&");
+		options = base.get_options(`PassSummary.aspx?satid=${config.target}&`);
 		fs.exists(basedir, function(exists) {
 			if (!exists) {
 				fs.mkdir(basedir, function(err) {
@@ -37,7 +37,7 @@ function getTable(config) {
 		});
 	}
 	else {
-		options = base.post_options("PassSummary.aspx?satid=" + config.target + "&", config.opt);
+		options = base.post_options(`PassSummary.aspx?satid=${config.target}&`, config.opt);
 	}
 	request(options, function(error, response, body) { //请求成功的处理逻辑
 		if (!error && response.statusCode == 200) {
@@ -110,7 +110,7 @@ function getTable(config) {
 			});
 			$("form").find("input").each(function() {
 				if ($(this).attr("name") == "ctl00$cph1$btnPrev" || $(this).attr("name") == "ctl00$cph1$visible") return;
-				else next += "&" + $(this).attr("name") + "=" + $(this).attr("value");
+				else next += `&${$(this).attr("name")}=${$(this).attr("value")}`;
 			});
 			next += "&ctl00$cph1$visible=radioVisible";
 			next = next.replace(/\+/g, "%2B").replace(/\//g, "%2F")//.replace(/\$/g, "%24");
