@@ -1,8 +1,8 @@
 <?php
-	@$target = $_GET['target'];
-	@$id = $_GET['id'];
+	@$target = $_GET["target"];
+	@$id = $_GET["id"];
 	if (!$target || !$id) die();
-	$img = $target.'/'.$id.'.png';
+	$img = $target . "/" . $id . ".png";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,10 +18,10 @@
 </a>
 <table class="standardTable">
 <?php
-echo file_get_contents($target.'/'.$id);
+echo file_get_contents($target . "/" . $id);
 ?>
 </table>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-alpha.12/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas/dist/html2canvas.min.js"></script>
 <script>
 var table = document.getElementsByClassName("standardTable")[0];
 html2canvas(table).then(function(canvas) {
@@ -32,7 +32,7 @@ html2canvas(table).then(function(canvas) {
 	img.onload = function() {
 		var anchor = document.createElement("a");
 		anchor.href = url;
-		anchor.download = "<?php echo $id.'_data' ?>";
+		anchor.download = "<?php echo $id . "_data" ?>";
 		document.body.appendChild(anchor);
 		anchor.appendChild(img);
 		document.body.removeChild(canvas);

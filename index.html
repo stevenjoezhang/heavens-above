@@ -221,25 +221,25 @@ var attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sunAl
 var eventsIridium = ["brightness", "altitude", "azimuth", "satellite", "distanceToFlareCentre", "brightnessAtFlareCentre", "date", "time", "distanceToSatellite", "AngleOffFlareCentre-line", "flareProducingAntenna", "sunAltitude", "angularSeparationFromSun", "image", "id"];
 
 function appendThead() {
-	$(".satellite .tr").append('\
-				<td align="center">\
-					时间\
-				</td>\
-				<td align="center">\
-					高度角\
-				</td>\
-				<td align="center">\
-					方位角\
-				</td>\
-				<td align="center">\
-					距离\
-				</td>\
-				<td align="center">\
-					星等\
-				</td>\
-				<td align="center">\
-					太阳高度\
-				</td>');
+	$(".satellite .tr").append(`
+				<td align="center">
+					时间
+				</td>
+				<td align="center">
+					高度角
+				</td>
+				<td align="center">
+					方位角
+				</td>
+				<td align="center">
+					距离
+				</td>
+				<td align="center">
+					星等
+				</td>
+				<td align="center">
+					太阳高度
+				</td>`);
 }
 
 function showData(target, type) {
@@ -258,7 +258,7 @@ function showData(target, type) {
 					<td>${ele[property[7]]}</td>
 					<td>${ele[property[2]]}</td>
 					<td>
-						<a href='download.php?target=${target}&id=${ele[property[9]]}' target='_blank'>查看</a>
+						<a href="download.php?target=${target}&id=${ele[property[9]]}" target="_blank">查看</a>
 					</td>`;
 				for (var j = 0; j < 7; j++) {
 					if (ele[property[3]][events[j]]) {
@@ -273,7 +273,7 @@ function showData(target, type) {
 					}
 				}
 				if (index < 3) $("#" + target).append(`<tr style='background-color:rgb(0,200,50)'>${html}</tr>`);
-				else if (ele[property[8]] == 0) $("#" + target).append(`<tr style='background-color:rgb(200,200,50)'>${html}</tr>`);
+				else if (ele[property[8]] == 0) $("#" + target).append(`<tr style="background-color:rgb(200,200,50)">${html}</tr>`);
 				else $("#" + target).append(`<tr>${html}</tr>`);
 			});
 			else obj.forEach(function(ele, index) {
@@ -282,7 +282,7 @@ function showData(target, type) {
 					<td>${ele[eventsIridium[7]]}</td>
 					<td>${ele[eventsIridium[0]]}</td>
 					<td>
-						<a href='download.php?target=${target}&id=${ele[eventsIridium[14]]}' target='_blank'>查看</a>
+						<a href="download.php?target=${target}&id=${ele[eventsIridium[14]]}" target="_blank">查看</a>
 					</td>`;
 				var map = [1, 2, 3, 4, 5, 8, 9, 10, 11, 12];
 				for (var j = 0; j < 10; j++) {
