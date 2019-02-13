@@ -10,7 +10,6 @@ const events = ["rise", "reachAltitude10deg", "highestPoint", "dropBelowAltitude
 const attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sunAltitude"];
 
 var database = [];
-const count = 4;
 
 var compare = [
 	function (a, b) {

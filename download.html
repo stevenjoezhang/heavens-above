@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0"/>
+<title>卫星详细信息</title>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.jpg"/>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas/dist/html2canvas.min.js"></script>
+<link rel="stylesheet" href="css/ha.css"/>
+</head>
+<body>
+<h1>点击图片即可下载</h1>
+<a href="" download="">
+	<img src=""/>
+</a>
+<table class="standardTable">
+</table>
+<script>
+function getUrlParam(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	return (r != null) ? decodeURI(r[2]) : null;
+}
+var target = getUrlParam("target"),
+	id = getUrlParam("id"),
+	img = `${target}/${id}.png`,
+	table = $("table").get(0);
+$("a").attr("href", img).attr("download", id);
+$("img").attr("src", img);
+$.get(`${target}/${id}`, function(result) {
+	$("table").html(result);
+	html2canvas(table).then(function(canvas) {
+		document.body.appendChild(canvas);
+		var img = new Image(),
+			url = canvas.toDataURL("image/png");
+		img.src = url;
+		img.onload = function() {
+			var anchor = document.createElement("a");
+			anchor.href = url;
+			anchor.download = id + "_data";
+			document.body.appendChild(anchor);
+			anchor.appendChild(img);
+			document.body.removeChild(canvas);
+			document.body.removeChild(table);
+		}
+	});
+});
+</script>
+</body>
+</html>

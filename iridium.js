@@ -73,7 +73,6 @@ function getTable(config) {
 			if (config.counter < config.count) {
 				setTimeout(function() {
 					getTable({
-						target: config.target,
 						count: config.count,
 						root: config.root,
 						counter: ++config.counter,
