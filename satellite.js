@@ -9,8 +9,6 @@ const property = ["url", "date", "brightness", "events", "passType", "image", "s
 const events = ["rise", "reachAltitude10deg", "highestPoint", "dropBelowAltitude10deg", "set", "exitShadow", "enterShadow"];
 const attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sunAltitude"];
 
-var database = [];
-
 var compare = [
 	function (a, b) {
 		return a[property[6]][1] >= b[property[6]][1] ? 1 : -1; //星等（越小越好）
@@ -24,6 +22,7 @@ var compare = [
 var weight = [9.5, 6, 6.5, 6.5];
 
 function getTable(config) {
+	var database = config.database || [];
 	var basedir = `${config.root}satellite${config.target}/`;
 	if (config.counter == 0) {
 		options = base.get_options(`PassSummary.aspx?satid=${config.target}&`);
@@ -119,7 +118,8 @@ function getTable(config) {
 					count: config.count,
 					root: config.root,
 					counter: ++config.counter,
-					opt: next
+					opt: next,
+					database: database
 				});
 			}, 10000);
 			else {

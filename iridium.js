@@ -7,8 +7,8 @@ exports.getTable = getTable;
 
 const eventsIridium = ["brightness", "altitude", "azimuth", "satellite", "distanceToFlareCentre", "brightnessAtFlareCentre", "date", "time", "distanceToSatellite", "AngleOffFlareCentre-line", "flareProducingAntenna", "sunAltitude", "angularSeparationFromSun", "image", "id"];
 
-var database = [];
 function getTable(config) {
+	var database = config.database || [];
 	var basedir = config.root + "IridiumFlares/";
 	if (config.counter == 0) {
 		options = base.get_options("IridiumFlares.aspx?");
@@ -76,7 +76,8 @@ function getTable(config) {
 						count: config.count,
 						root: config.root,
 						counter: ++config.counter,
-						opt: next
+						opt: next,
+						database: database
 					});
 				}, 10000);
 			}
