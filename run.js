@@ -1,5 +1,5 @@
-const satellite = require('./satellite');
-const iridium = require('./iridium');
+const satellite = require("./satellite");
+const iridium = require("./iridium");
 
 var location = [39.9042, 116.4074, "%E5%8C%97%E4%BA%AC%E5%B8%82", 52, "ChST"];
 //COOKIE需要先通过浏览器调到中文
@@ -10,7 +10,7 @@ var location = [39.9042, 116.4074, "%E5%8C%97%E4%BA%AC%E5%B8%82", 52, "ChST"];
 satellite.getTable({
 	target: 41765,
 	count: 4,
-	root: "./",
+	root: "./public/data/",
 	counter: 0,
 	opt: 0,
 	database: []
@@ -19,7 +19,7 @@ satellite.getTable({
 satellite.getTable({
 	target: 25544,
 	count: 4,
-	root: "./",
+	root: "./public/data/",
 	counter: 0,
 	opt: 0,
 	database: []
@@ -27,7 +27,7 @@ satellite.getTable({
 
 iridium.getTable({
 	count: 4,
-	root: "./",
+	root: "./public/data/",
 	counter: 0,
 	opt: 0,
 	database: []

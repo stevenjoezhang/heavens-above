@@ -3,13 +3,16 @@
 	"version": "1.0.0",
 	"description": "Scripts for scraping the Heavens Above website",
 	"main": "run.js",
+	"scripts": {
+		"start": "node run.js"
+	},
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.2",
 		"request": "^2.88.0"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/stevenjoezhang/heavens-above.git"
+		"url": "git+https://github.com/PKUPI/heavens-above.git"
 	},
 	"keywords": [
 		"Heavens",
@@ -18,7 +21,7 @@
 	"author": "Mimi",
 	"license": "GPL-3.0-or-later",
 	"bugs": {
-		"url": "https://github.com/stevenjoezhang/heavens-above/issues"
+		"url": "https://github.com/PKUPI/heavens-above/issues"
 	},
-	"homepage": "https://github.com/stevenjoezhang/heavens-above#readme"
+	"homepage": "https://github.com/PKUPI/heavens-above#readme"
 }
