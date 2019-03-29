@@ -3,8 +3,6 @@ const cheerio = require("cheerio");
 const fs = require("fs");
 const base = require("./base");
 
-exports.getTable = getTable;
-
 const property = ["url", "date", "brightness", "events", "passType", "image", "scoreData", "exist", "score", "id"];
 const events = ["rise", "reachAltitude10deg", "highestPoint", "dropBelowAltitude10deg", "set", "exitShadow", "enterShadow"];
 const attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sunAltitude"];
@@ -24,6 +22,12 @@ var weight = [9.5, 6, 6.5, 6.5];
 function getTable(config) {
 	var database = config.database || [];
 	var basedir = `${config.root}satellite${config.target}/`;
+	if (config.counter === undefined) {
+		config.counter = 0;
+	}
+	if (config.opt === undefined) {
+		config.opt = 0;
+	}
 	if (config.counter == 0) {
 		options = base.get_options(`PassSummary.aspx?satid=${config.target}&`);
 		fs.exists(basedir, (exists) => {
@@ -95,7 +99,7 @@ function getTable(config) {
 						temp[property[8]] = 0;
 						var id = base.md5(Math.random().toString())//temp[property[1]] + temp[property[7]];
 						temp[property[9]] = id;
-						fs.appendFile(basedir + id, table.html(), (err) => {
+						fs.appendFile(basedir + id + ".html", table.html(), (err) => {
 							if (err) console.log(err);
 						}); //保存表格
 						request.get(base.image_options(temp[property[5]])).pipe(fs.createWriteStream(basedir + id + ".png", {"flags": "a"})).on("error", (err) => {
@@ -112,16 +116,18 @@ function getTable(config) {
 			});
 			next += "&ctl00$cph1$visible=radioVisible";
 			next = next.replace(/\+/g, "%2B").replace(/\//g, "%2F")//.replace(/\$/g, "%24");
-			if (config.counter < config.count) setTimeout(() => {
-				getTable({
-					target: config.target,
-					count: config.count,
-					root: config.root,
-					counter: ++config.counter,
-					opt: next,
-					database: database
-				});
-			}, 10000);
+			if (config.counter < config.count) {
+				setTimeout(() => {
+					getTable({
+						target: config.target,
+						count: config.count,
+						root: config.root,
+						counter: ++config.counter,
+						opt: next,
+						database: database
+					});
+				}, 10000);
+			}
 			else {
 				setTimeout(() => {
 					for (var i = 0; i < 4; i++) {
@@ -162,3 +168,5 @@ function getTable(config) {
 		}
 	});
 }
+
+exports.getTable = getTable;

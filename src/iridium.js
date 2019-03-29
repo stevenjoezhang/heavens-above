@@ -3,13 +3,17 @@ const cheerio = require("cheerio");
 const fs = require("fs");
 const base = require("./base");
 
-exports.getTable = getTable;
-
 const eventsIridium = ["brightness", "altitude", "azimuth", "satellite", "distanceToFlareCentre", "brightnessAtFlareCentre", "date", "time", "distanceToSatellite", "AngleOffFlareCentre-line", "flareProducingAntenna", "sunAltitude", "angularSeparationFromSun", "image", "id"];
 
 function getTable(config) {
 	var database = config.database || [];
 	var basedir = config.root + "IridiumFlares/";
+	if (config.counter === undefined) {
+		config.counter = 0;
+	}
+	if (config.opt === undefined) {
+		config.opt = 0;
+	}
 	if (config.counter == 0) {
 		options = base.get_options("IridiumFlares.aspx?");
 		fs.exists(basedir, (exists) => {
@@ -49,7 +53,7 @@ function getTable(config) {
 						temp[eventsIridium[13]] = "https://www.heavens-above.com/" + $("#ctl00_cph1_imgSkyChart").attr("src")//.replace("size=800", "size=1600");,
 						var id = base.md5(Math.random().toString())//temp[eventsIridium[6]];
 						temp[eventsIridium[14]] = id;
-						fs.appendFile(basedir + id, table.html(), (err) => {
+						fs.appendFile(basedir + id + ".html", table.html(), (err) => {
 							if (err) console.log(err);
 						}); //保存表格
 						request.get(base.image_options(temp[eventsIridium[13]])).pipe(fs.createWriteStream(basedir + id + ".png", {"flags": "a"})).on("error", (err) => {
@@ -87,3 +91,5 @@ function getTable(config) {
 		}
 	});
 }
+
+exports.getTable = getTable;

@@ -27,7 +27,7 @@ var target = getUrlParam("target"),
 	table = $("table")[0];
 $("a").attr("href", img).attr("download", id);
 $("img").attr("src", img);
-$.get(`data/${target}/${id}`, function(result) {
+$.get(`data/${target}/${id}.html`, function(result) {
 	$("table").html(result);
 	html2canvas(table).then(function(canvas) {
 		document.body.appendChild(canvas);
