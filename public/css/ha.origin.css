@@ -1,0 +1,238 @@
+body            {font-family: verdana,arial,helvetica,sans-serif; font-size: 1.5rem;
+                color: black; background-color: white;}
+ul              {margin: 0 0 0pt 20pt;}
+
+th              {font-weight: bold}
+a               {text-decoration: none;}
+a:hover         {text-decoration: underline;}
+a:link          {color: blue}       /* unvisited link */
+a:visited       {color: blue}       /* visited links */
+a:active        {color: blue}       /* active links */
+
+img             {border: 0}
+
+.normalp1       {font-size: 1.875rem;}
+.normalp2       {font-size: 2.25rem;}
+.caption        {font-size: 1.5rem;}    /* picture captions */
+.pagehead       {color: black; font-size: 2.25rem; 
+                font-family: verdana,arial,helvetica,sans-serif; font-weight: bold}
+.menu           {font-size: 32px; background-color: white; margin: 0; padding: 0; border: 0px none;
+                font-weight: bold; line-height: 140%; list-style-type:circle}
+.menu2          {color: black; background-color: white; font-size: 1.5rem; text-decoration: none; margin: 0; border: 0px none;
+                line-height: 120%; font-weight: normal; list-style-type:square; padding-left:20px; padding-right:0; padding-top:0px; padding-bottom:0}
+.menu3          {color: black; background-color: white; font-size: 1.5rem; text-decoration: none; margin: 0; border: 0px none;
+                font-weight: normal; line-height: 120%; list-style-type:none; padding-left:40px; padding-right:0; padding-top:0px; padding-bottom:0}
+
+.topmenu        {font-size: 48px; margin: 0; padding: 0; border: 0px none;
+                font-weight: normal; line-height: 140%; list-style-type:circle}
+.topmenu1       {color: #0078bc; border-top: thin solid #0078bc; border-bottom: thin solid #0078bc}
+.topmenu1sel    {color: #0078bc; border-top: thick solid #0078bc; border-bottom: thick solid #0078bc}
+.topmenu2       {color: #919294; border-top: thin solid #0078bc; border-bottom: thin solid #0078bc}
+.topmenu1sel a      {color: #0078bc; font-weight: normal}
+.topmenu1 a:hover   {text-decoration: underline;}
+.topmenu2 a     {color: #919294;}
+.topmenu2 a:hover   {text-decoration: underline; font-weight: bold}
+#menuLevel2     {font-size: 2.25rem; margin: 0; padding: 0; border: 0px none;}
+.menub1         {color: #0078bc;}
+.menub1 a       {color: #0078bc;}
+.menub1 a:hover     {text-decoration: underline;}
+.menub2         {color: #919294;}
+.menub2 a       {color: #919294;}
+.menub2 a:hover     {text-decoration: underline;}
+                
+.fullWidthText  {width: 700px;}
+
+.msg            {color: green;}
+.errormsg       {color: red;}
+
+.boldnormal     {font-weight: 700}
+
+.heading        {color: navy;  font-size: 3.5rem;; font-weight: 700;font-family: Arial;font-style: italic}
+
+.footer         {width: 700px; font-size: medium;}
+
+.warning        {color: red; font-weight: 700; width:700px}
+
+.list           {color: black; font-size: medium;}
+
+.faqQ           {padding-left: 20px; padding-top:0; padding-bottom:0; margin: 0}
+.faqA           {padding-left: 40px; padding-top:0; padding-bottom:0; margin: 0}
+
+.loginTable     {background-color: #F0F0F0; border-color: Gray; border-width: 2px; border-style: solid; padding: 5px; text-align:left}
+.loginTextBox   {width:200px; margin-bottom:5px}
+.loginTableHead {font-size: 2.25rem; font-weight: 700;}
+.loginTableLabel {font-weight: 700; padding-right:5px}
+.loginTableNormal {font-weight: 400; padding:5px }
+.loginFailureMessage    {font-weight: 400; padding:5px; color: Red}
+
+.userTable      {background-color:#F0F0F0; border-color:Gray; margin:2px; border-width:1px; border-style:solid; padding:4px; font-size:22px; text-align:left; border-collapse:collapse;}
+
+.navbar         {color: black; font-size: 0.75rem;;}
+A.stringEditLinkOK {color: green;}
+A.stringEditLinkNOK {color: red;}
+A.stringDefEditLink {color: orange;}
+
+.lightrow       {color: black; background-color: white;}
+.darkrow        {color: black; background-color: #E0E0E0;}
+
+.formtable      {color: white; font-size: 1.875rem; font-weight: 700; background-color: #0000CC; width: 620px; border: thin solid red;}
+.formtitle      {color: white; font-size: 1.875rem; font-weight: 700; background-color: #0000CC;}
+.formcontent    {color: black; font-size: 1.5rem; font-weight: 400; background-color: #CCCCCC; border: thin solid red;}
+
+.noticeTitle    {font-size: 0.9375rem;; font-weight: 700;}
+.noticeBody     {font-size: 0.9375rem;; font-weight: 400;}
+
+/* standard tables are used for most tabular information */
+table.standardTable
+{
+    background-color: White;
+    border-color: Gray;
+    border-width: 2px;
+    border-style: solid;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table.standardTable thead { 
+    color:  #000000;
+    background-color: #C0C0FF;
+    font-weight:    bold;
+    font-style: normal;
+    text-decoration:    none;
+    word-spacing:   normal;
+    letter-spacing: normal;
+    text-transform: none;
+    vertical-align: top;
+    }   
+    
+table.standardTable tbody tr:nth-child(odd)   {color: black; background-color: white;}
+table.standardTable tbody tr:nth-child(even)    {color: black; background-color: #E0E0E0;}
+
+table.standardTable td {
+    padding: 3px;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    }
+
+.tablehead {    
+    color:  #000000;
+    background-color: #C0C0FF;
+    font-weight:    500;
+    font-style: normal;
+    text-decoration:    none;
+    word-spacing:   normal;
+    letter-spacing: normal;
+    text-transform: none;
+    vertical-align: top;
+    }   
+.lightrow {
+    color: black; 
+    background-color: white;
+    }
+.darkrow {
+    color: black; 
+    background-color: #E0E0E0;
+    }
+
+.clickableRow:hover
+{
+    background-color: #FFFFCC;
+    cursor:pointer;
+}
+
+td.ddMenu {
+    font-family: Arial, Verdana;
+    font-size: large;
+    margin: 0;
+    list-style: none;
+    background-color: #C0C0FF;
+}
+
+ul.ddMenu {
+    font-family: Arial, Verdana;
+    font-size: large;
+    margin: 0;
+    list-style: none;
+    width: 100%;
+    background: #C0C0FF;
+}
+ul.ddMenu li {
+    display: block;
+    font-weight: bold;
+    position: relative;
+    float: left;
+    padding:  5px 10px 5px 10px;
+    background: #C0C0FF;
+}
+li ul {
+    display: none;
+}
+ul.ddMenu li a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 0;
+    background: #C0C0FF;
+    margin-left: 0;
+    white-space: nowrap;
+}
+ul.ddMenu li a:hover {
+    background: #3b3b3b;
+    color: white;
+}
+ul.ddMenu li ul li {
+    font-weight: bold;
+    float: left;
+    padding:  3px 10px 3px 10px;
+    background: #C0C0FF;
+}
+ul.ddMenu li ul li a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 0;
+    background: #C0C0FF;
+    white-space: nowrap;
+}
+li:hover ul {
+    display: block;
+    position: absolute;
+}
+li:hover li {
+    float: none;
+    font-size: medium;
+    position: relative;
+    left: -50px;
+}
+li:hover li a:hover  {
+    background: #3b3b3b;
+    color: white;
+}
+li:hover li a {
+    background: #C0C0FF;
+}
+
+#faqs       { position:relative; }
+#faqs h3    { cursor:pointer; font-weight:normal; color:blue }
+#faqs h3.active { color:magenta; }
+#faqs div   { position:relative; }
+#faqs div p { padding:0; margin-bottom:15px; position:relative; }
+
+#horizontalmenu ul { padding:1; margin:1; list-style:none; } 
+#horizontalmenu li { float:left; position:relative; padding-right:100; display:block; border:4px solid #CC55FF; border-style:inset; } 
+#horizontalmenu li ul { display:none; position:absolute; } 
+#horizontalmenu li:hover ul{ display:block; background:green; height:auto; width:8em; } 
+#horizontalmenu li ul li{ clear:both; border-style:none;}
+
+.popup {
+  background-color:#FFFFC0;
+  cursor:default;
+  display:none;
+  margin-top: 0px;
+  position:absolute;
+  text-align:left;
+  width:auto;
+  z-index:10;
+  padding: 0px 0px 0px;
+  line-height: 100%; 
+}

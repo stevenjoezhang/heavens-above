@@ -6,7 +6,10 @@
 <title>YAS</title>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="css/ha.css"/>
 <style>
 td {
 	white-space: nowrap;
@@ -232,13 +235,19 @@ td {
 
 <div class="container" style="margin-bottom: 30px;">
 	<h1>生成天象预告</h1>
-	<h2>让《天象预告》实现社会主义四个现代化中的自动化</h2>
-	<p>请在上方表格中勾选想要出现在天象报告中的项目，然后编辑下面的预设内容，点击『生成』即可</p>
-	<textarea name="" id="" style="width: 100%;" rows="10">主要人造卫星过境预报</textarea>
-	<button type="button" class="btn btn-success" onclick="download()">生成</button>
+	<h2>让撰写《天象预告》实现社会主义四个现代化中技术现代化的自动化</h2>
+	<p>请在上方表格中勾选想要出现在天象报告中的项目，然后点击『生成』<br/>系统会自动获取相关图片及生成文字描述，并导出为Word文档。再点击『下载』即可保存到本地<br/>卫星过境信息默认按照推荐度排序，暂时不支持根据时间排序，请等待新功能<br/><b>警告：生成的Word文档为Office 2007兼容格式，秀米无法读取，请使用最新版Microsoft Word打开并选择『另存为』</b></p>
+	<p>其它天象可参考<a href="https://interesting-sky.china-vo.org" target="_blank">有趣天文奇观</a>网站</p>
+	<a class="btn btn-success" href="javascript:generate()">生成</a>
+	<a class="btn btn-info disabled" href="#" id="download">下载</a>
 </div>
 <script>
-//var names = ["ISS", "TianGong", "IridiumFlares"];
+var names = {
+	satellite25544: "国际空间站",
+	satellite41765: "天宫二号",
+	IridiumFlares: "铱星闪光"
+};
+
 var property = ["url", "date", "brightness", "events", "passType", "image", "scoreData", "exist", "score", "id"];
 var events = ["rise", "reachAltitude10deg", "highestPoint", "dropBelowAltitude10deg", "set", "exitShadow", "enterShadow"];
 var attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sunAltitude"];
@@ -277,7 +286,7 @@ function showData(target, type) {
 		success: function(data, status, xhr) {
 			var obj = JSON.parse(data);
 			if (type == 0) obj.forEach(function(ele, index) {
-				var html = `<td><input type="checkbox" value="target=${target}&id=${ele[property[9]]}"></td>
+				var html = `<td><input type="checkbox" class="${target}" id="${ele[property[9]]}"></td>
 					<td>${ele[property[8]]}</td>
 					<td>${ele[property[1]]}</td>
 					<td>${ele[property[7]]}</td>
@@ -302,7 +311,7 @@ function showData(target, type) {
 				else $("#" + target).append(`<tr>${html}</tr>`);
 			});
 			else obj.forEach(function(ele, index) {
-				var html = `<td><input type="checkbox" value="target=${target}&id=${ele[property[9]]}"></td>
+				var html = `<td><input type="checkbox" class="${target}" id="${ele[eventsIridium[14]]}"></td>
 					<td>N/A</td>
 					<td>${ele[eventsIridium[6]]}</td>
 					<td>${ele[eventsIridium[7]]}</td>
@@ -325,8 +334,77 @@ showData("satellite25544", 0);
 showData("satellite41765", 0);
 showData("IridiumFlares", 1);
 
-function download() {
-	$("input:checked");
+function getText(text) {
+	return new Promise((resolve, reject) => {
+		resolve(`<p>${text}</p>`);
+	});
+}
+
+function getPic(src) {
+	return new Promise((resolve, reject) => {
+		var img = new Image();
+		img.src = src;
+		img.onload = function() {
+			var canvas = document.createElement("canvas");
+			var ctx = canvas.getContext("2d");
+			canvas.height = this.height;
+			canvas.width = this.width;
+			ctx.drawImage(this, 0, 0);
+			resolve(`<img src="${canvas.toDataURL()}"/>`);
+		}
+	});
+}
+
+function getTable(src) {
+	return new Promise((resolve, reject) => {
+		$.get(src, function(result) {
+			var table = $(`<table class="standardTable"></table>`);
+			table.html(result);
+			$("body").append(table);
+			html2canvas(table[0]).then(function(canvas) {
+				document.body.appendChild(canvas);
+				var url = canvas.toDataURL("image/png");	
+				document.body.removeChild(canvas);
+				table.remove();
+				resolve(`<img src="${url}"/>`);
+			});
+		});
+	});
+}
+
+function generate() {
+	var target = $("input:checked");
+	if (target.length == 0) {
+		alert("没有选中项！");
+		return;
+	}
+	var queue = [], text1, text2;
+	target.each(function(i, o) {
+		temp = $(o).parents("tr").children();
+		if ($(o).attr("class") == "IridiumFlares") {
+			text1 = temp.eq(2).text() + temp.eq(3).text() + " 铱星闪光";
+			text2 = "最大亮度 " + temp.eq(4).text() + "等";
+		}
+		else {
+			text1 = temp.eq(2).text() + temp.eq(18).text() + " " + names[$(o).attr("class")] + "过境";
+			text2 = "最大亮度 " + temp.eq(4).text() + "等";
+		}
+		queue = queue.concat([getText(text1), getText(text2), getPic(`data/${$(o).attr("class")}/${$(o).attr("id")}.png`), getTable(`data/${$(o).attr("class")}/${$(o).attr("id")}.html`)]);
+	});
+	Promise.all(queue).then(values => {
+		console.log(values);
+		var content = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+</head>
+<body>
+${values.join("\n")}
+</body>
+</html>`;
+		var converted = htmlDocx.asBlob(content);
+		$("#download").removeClass("disabled").attr("href", URL.createObjectURL(converted)).attr("download", "天象预告.docx");
+	});
 }
 </script>
 </body>
