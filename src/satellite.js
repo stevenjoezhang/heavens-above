@@ -1,5 +1,6 @@
 const request = require("request");
 const cheerio = require("cheerio");
+const async = require("async");
 const fs = require("fs");
 const base = require("./base");
 
@@ -21,14 +22,10 @@ var weight = [9.5, 6, 6.5, 6.5];
 
 function getTable(config) {
 	var database = config.database || [];
+	var counter = config.counter || 0;
+	var opt = config.opt || 0;
 	var basedir = `${config.root}satellite${config.target}/`;
-	if (config.counter === undefined) {
-		config.counter = 0;
-	}
-	if (config.opt === undefined) {
-		config.opt = 0;
-	}
-	if (config.counter == 0) {
+	if (counter == 0) {
 		options = base.get_options(`PassSummary.aspx?satid=${config.target}&`);
 		fs.exists(basedir, (exists) => {
 			if (!exists) {
@@ -39,7 +36,7 @@ function getTable(config) {
 		});
 	}
 	else {
-		options = base.post_options(`PassSummary.aspx?satid=${config.target}&`, config.opt);
+		options = base.post_options(`PassSummary.aspx?satid=${config.target}&`, opt);
 	}
 	request(options, (error, response, body) => { //请求成功的处理逻辑
 		if (!error && response.statusCode == 200) {
@@ -48,6 +45,7 @@ function getTable(config) {
 			});
 			var next = "__EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=";
 			var tbody = $("form").find("table.standardTable tbody");
+			var queue = [];
 			tbody.find("tr").each((i, o) => {
 				var temp = {};
 				temp[property[0]] = "https://www.heavens-above.com/" + $(o).find("td").eq(0).find("a").attr("href").replace("type=V", "type=A");
@@ -55,6 +53,9 @@ function getTable(config) {
 				temp[property[2]] = $(o).find("td").eq(1).text();
 				temp[property[3]] = {};
 				temp[property[4]] = $(o).find("td").eq(11).text();
+				queue.push(temp);
+			});
+			async.map(queue, function(temp, finish) {
 				request(base.image_options(temp[property[0]]), (error, response, body) => {
 					if (!error && response.statusCode == 200) {
 						var $ = cheerio.load(body, {
@@ -106,30 +107,30 @@ function getTable(config) {
 							console.error(err);
 						}); //下载图片
 						console.log(temp);
-						database.push(temp);
+						finish(null, temp);
 					};
 				});
-			});
-			$("form").find("input").each((i, o) => {
-				if ($(o).attr("name") == "ctl00$cph1$btnPrev" || $(o).attr("name") == "ctl00$cph1$visible") return;
-				else next += `&${$(o).attr("name")}=${$(o).attr("value")}`;
-			});
-			next += "&ctl00$cph1$visible=radioVisible";
-			next = next.replace(/\+/g, "%2B").replace(/\//g, "%2F")//.replace(/\$/g, "%24");
-			if (config.counter < config.count) {
-				setTimeout(() => {
+			}, (errs, results) => {
+				if (errs) throw errs; // errs = [err1, err2, err3]
+				//console.log(results); // results = [result1, result2, result3]
+				database = database.concat(results);
+				$("form").find("input").each((i, o) => {
+					if ($(o).attr("name") == "ctl00$cph1$btnPrev" || $(o).attr("name") == "ctl00$cph1$visible") return;
+					else next += `&${$(o).attr("name")}=${$(o).attr("value")}`;
+				});
+				next += "&ctl00$cph1$visible=radioVisible";
+				next = next.replace(/\+/g, "%2B").replace(/\//g, "%2F")//.replace(/\$/g, "%24");
+				if (counter < config.count) {
 					getTable({
 						target: config.target,
 						count: config.count,
 						root: config.root,
-						counter: ++config.counter,
+						counter: ++counter,
 						opt: next,
 						database: database
 					});
-				}, 10000);
-			}
-			else {
-				setTimeout(() => {
+				}
+				else {
 					for (var i = 0; i < 4; i++) {
 						database.sort(compare[i]);
 						database = database.map((ele, index) => {
@@ -163,8 +164,8 @@ function getTable(config) {
 					fs.appendFile(basedir + "index.json", JSON.stringify(database), (err) => {
 						if (err) console.log(err);
 					});
-				}, 15000);
-			}
+				}
+			});
 		}
 	});
 }

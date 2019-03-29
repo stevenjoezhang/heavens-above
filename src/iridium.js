@@ -1,5 +1,6 @@
 const request = require("request");
 const cheerio = require("cheerio");
+const async = require("async");
 const fs = require("fs");
 const base = require("./base");
 
@@ -7,14 +8,10 @@ const eventsIridium = ["brightness", "altitude", "azimuth", "satellite", "distan
 
 function getTable(config) {
 	var database = config.database || [];
+	var counter = config.counter || 0;
+	var opt = config.opt || 0;
 	var basedir = config.root + "IridiumFlares/";
-	if (config.counter === undefined) {
-		config.counter = 0;
-	}
-	if (config.opt === undefined) {
-		config.opt = 0;
-	}
-	if (config.counter == 0) {
+	if (counter == 0) {
 		options = base.get_options("IridiumFlares.aspx?");
 		fs.exists(basedir, (exists) => {
 			if (!exists) {
@@ -25,7 +22,7 @@ function getTable(config) {
 		});
 	}
 	else {
-		options = base.post_options("IridiumFlares.aspx?", config.opt);
+		options = base.post_options("IridiumFlares.aspx?", opt);
 	}
 	request(options, (error, response, body) => { //请求成功的处理逻辑
 		if (!error && response.statusCode == 200) {
@@ -34,12 +31,17 @@ function getTable(config) {
 			});
 			var next = "__EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=";
 			var tbody = $("form").find("table.standardTable tbody");
+			var queue = [];
 			tbody.find("tr").each((i, o) => {
 				var temp = {};
 				for (var i = 0; i < 6; i++) {
 					temp[eventsIridium[i]] = $(o).find("td").eq(i + 1).text();
 				}
-				request(base.iridium_options("https://www.heavens-above.com/" + $(o).find("td").eq(0).find("a").attr("href").replace("type=V", "type=A")), (error, response, body) => {
+				temp["url"] = "https://www.heavens-above.com/" + $(o).find("td").eq(0).find("a").attr("href").replace("type=V", "type=A");
+				queue.push(temp);
+			});
+			async.map(queue, function(temp, finish) {
+				request(base.iridium_options(temp["url"]), (error, response, body) => {
 					//console.log(response.statusCode)
 					if (!error && response.statusCode == 200) { //在无SessionID时返回500
 						var $ = cheerio.load(body, {
@@ -59,35 +61,35 @@ function getTable(config) {
 						request.get(base.image_options(temp[eventsIridium[13]])).pipe(fs.createWriteStream(basedir + id + ".png", {"flags": "a"})).on("error", (err) => {
 							console.error(err);
 						}); //下载图片
-						console.log(temp);
-						database.push(temp);
+						//console.log(temp);
+						finish(null, temp);
 					};
 				});
-			});
-			$("form").find("input").each((i, o) => {
-				if ($(o).attr("name") == "ctl00$cph1$btnPrev" || $(o).attr("name") == "ctl00$cph1$visible") return;
-				else next += `&${$(o).attr("name")}=${$(o).attr("value")}`;
-			});
-			next += "&ctl00$cph1$visible=radioVisible";
-			next = next.replace(/\+/g, "%2B").replace(/\//g, "%2F")//.replace(/\$/g, "%24");
-			if (config.counter < config.count) {
-				setTimeout(() => {
+			}, (errs, results) => {
+				if (errs) throw errs; // errs = [err1, err2, err3]
+				//console.log(results); // results = [result1, result2, result3]
+				database = database.concat(results);
+				$("form").find("input").each((i, o) => {
+					if ($(o).attr("name") == "ctl00$cph1$btnPrev" || $(o).attr("name") == "ctl00$cph1$visible") return;
+					else next += `&${$(o).attr("name")}=${$(o).attr("value")}`;
+				});
+				next += "&ctl00$cph1$visible=radioVisible";
+				next = next.replace(/\+/g, "%2B").replace(/\//g, "%2F")//.replace(/\$/g, "%24");
+				if (counter < config.count) {
 					getTable({
 						count: config.count,
 						root: config.root,
-						counter: ++config.counter,
+						counter: ++counter,
 						opt: next,
 						database: database
 					});
-				}, 10000);
-			}
-			else {
-				setTimeout(() => {
+				}
+				else {
 					fs.appendFile(basedir + "index.json", JSON.stringify(database), (err) => {
 						if (err) console.log(err);
 					});
-				}, 15000);
-			}
+				}
+			});
 		}
 	});
 }
