@@ -1,5 +1,5 @@
 {
-	"name": "HeavensAbove",
+	"name": "heavens-above",
 	"version": "1.0.0",
 	"description": "Scripts for scraping the Heavens Above website",
 	"main": "run.js",
@@ -16,8 +16,8 @@
 		"url": "git+https://github.com/PKUPI/heavens-above.git"
 	},
 	"keywords": [
-		"Heavens",
-		"Above"
+		"Heavens Above",
+		"spider"
 	],
 	"author": "Mimi",
 	"license": "GPL-3.0-or-later",

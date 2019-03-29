@@ -1,6 +1,6 @@
 # Heavens Above
 
-爬取Heavens Above网站。基于Node.js。  
+爬取Heavens Above网站，获取卫星过境等信息。基于Node.js，需使用`npm`安装依赖。  
 Scripts for scraping the Heavens Above website. It's based on Node.js. You may need to install some dependency packages using npm.
 
 **警告：不支持IE。**  
@@ -18,8 +18,8 @@ npm install
 # Run the app
 node run.js
 ```
-通过网络服务器访问`data`目录下的内容即可查看爬取的数据。具体来说，在访问`index.html`时，就可以加载你需要的数据。  
-将`node run.js`添加到`crontab`（例如以每周或每月一次的频率执行），则可以始终获取最新数据。
+`public`目录下是一个完整的网站，爬取的数据会存储在`public/data`目录下，通过网络服务器访问`public/index.html`即可查看数据的内容。  
+将`node run.js`添加到`crontab`，以每周或每月一次的频率执行，则可以始终获取最新数据。
 
 ## Credits
 * [Mimi](https://zhangshuqiao.org) Developer of this project.  
