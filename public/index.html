@@ -115,61 +115,6 @@ td {
 </div>
 
 <div class="container">
-	<h1>天宫二号过境</h1>
-</div>
-<div class="container satellite" style="overflow-x: scroll;">
-	<table class="table table-striped table-bordered">
-		<thead>
-			<tr>
-				<td align="center" rowspan="2" style="vertical-align: middle">
-					选择
-				</td>
-				<td align="center" rowspan="2" style="vertical-align: middle">
-					推荐度
-				</td>
-				<td align="center" rowspan="2" style="vertical-align: middle">
-					日期
-				</td>
-				<td align="center" rowspan="2" style="vertical-align: middle">
-					持续时间
-				</td>
-				<td align="center" rowspan="2" style="vertical-align: middle">
-					星等
-				</td>
-				<td align="center" rowspan="2" style="vertical-align: middle">
-					星图
-				</td>
-				<td align="center" colspan="6">
-					升
-				</td>
-				<td align="center" colspan="6">
-					到达高度10°
-				</td>
-				<td align="center" colspan="6">
-					上中天
-				</td>
-				<td align="center" colspan="6">
-					低于高度10°
-				</td>
-				<td align="center" colspan="6">
-					降
-				</td>
-				<td align="center" colspan="6">
-					离开地影
-				</td>
-				<td align="center" colspan="6">
-					进入地影
-				</td>
-			</tr>
-			<tr class="tr">
-			</tr>
-		</thead>
-		<tbody id="satellite41765">
-		</tbody>
-	</table>
-</div>
-
-<div class="container">
 	<h1>铱星闪光</h1>
 </div>
 <div class="container iridium" style="overflow-x: scroll;">
@@ -244,7 +189,6 @@ td {
 <script>
 var names = {
 	satellite25544: "国际空间站",
-	satellite41765: "天宫二号",
 	IridiumFlares: "铱星闪光"
 };
 
@@ -331,7 +275,6 @@ function showData(target, type) {
 
 for (var i = 0; i < 7; i++) appendThead();
 showData("satellite25544", 0);
-showData("satellite41765", 0);
 showData("IridiumFlares", 1);
 
 function getText(text) {

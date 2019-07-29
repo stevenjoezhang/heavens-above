@@ -28,7 +28,7 @@ function post_options(target, opt) {
 			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
 			"Accept-Encoding": "deflate, br",
 			"Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-			"Cookie": "ASP.NET_SessionId=y53fm4mpm0qpt0xujd3djqjm; preferences=showDaytimeFlares=True; userInfo=lat=39.9042&lng=116.4074&alt=52&tz=ChST&loc=%e5%8c%97%e4%ba%ac%e5%b8%82"
+			"Cookie": "ASP.NET_SessionId=4swouj1mkd2nburls12t5ryx; preferences=showDaytimeFlares=True; userInfo=lat=39.9042&lng=116.4074&alt=52&tz=ChST&loc=%e5%8c%97%e4%ba%ac%e5%b8%82"
 		}
 	};
 }
@@ -46,7 +46,7 @@ function get_options(target) {
 			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
 			"Accept-Encoding": "deflate, br",
 			"Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-			"Cookie": "ASP.NET_SessionId=y53fm4mpm0qpt0xujd3djqjm; preferences=showDaytimeFlares=True; userInfo=lat=39.9042&lng=116.4074&alt=52&tz=ChST&loc=%e5%8c%97%e4%ba%ac%e5%b8%82"
+			"Cookie": "ASP.NET_SessionId=4swouj1mkd2nburls12t5ryx; preferences=showDaytimeFlares=True; userInfo=lat=39.9042&lng=116.4074&alt=52&tz=ChST&loc=%e5%8c%97%e4%ba%ac%e5%b8%82"
 		}
 	};
 }
@@ -64,7 +64,7 @@ function image_options(target) {
 			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
 			"Accept-Encoding": "deflate, br",
 			"Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-			"Cookie": "ASP.NET_SessionId=y53fm4mpm0qpt0xujd3djqjm; preferences=showDaytimeFlares=True; userInfo=lat=39.9042&lng=116.4074&alt=52&tz=ChST&loc=%e5%8c%97%e4%ba%ac%e5%b8%82"
+			"Cookie": "ASP.NET_SessionId=4swouj1mkd2nburls12t5ryx; preferences=showDaytimeFlares=True; userInfo=lat=39.9042&lng=116.4074&alt=52&tz=ChST&loc=%e5%8c%97%e4%ba%ac%e5%b8%82"
 		}
 	};
 }
@@ -83,7 +83,7 @@ function iridium_options(target) {
 			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
 			"Accept-Encoding": "deflate, br",
 			"Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-			"Cookie": "ASP.NET_SessionId=y53fm4mpm0qpt0xujd3djqjm; preferences=showDaytimeFlares=True; userInfo=lat=39.9042&lng=116.4074&alt=52&tz=ChST&loc=%e5%8c%97%e4%ba%ac%e5%b8%82"
+			"Cookie": "ASP.NET_SessionId=4swouj1mkd2nburls12t5ryx; preferences=showDaytimeFlares=True; userInfo=lat=39.9042&lng=116.4074&alt=52&tz=ChST&loc=%e5%8c%97%e4%ba%ac%e5%b8%82"
 		}
 	};
 }

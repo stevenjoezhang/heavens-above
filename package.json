@@ -7,7 +7,7 @@
 		"start": "node run.js"
 	},
 	"dependencies": {
-		"async": "^2.6.2",
+		"async": "^3.1.0",
 		"cheerio": "^1.0.0-rc.2",
 		"request": "^2.88.0"
 	},
