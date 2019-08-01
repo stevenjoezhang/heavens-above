@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0">
 <title>YAS</title>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="css/ha.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/ha.css">
 <style>
 td {
 	white-space: nowrap;
@@ -47,7 +47,7 @@ td {
 					<ul class="dropdown-menu" aria-labelledby="dropdown">
 						<li><a href="javascript:void(0)">扫码打开本页面</a></li>
 						<li>
-							<img id="qrcode" style="width: 100%"/>
+							<img id="qrcode" style="width: 100%">
 							<script>
 								if (/mobile/i.test(navigator.userAgent) || /mobile/i.test(navigator.appVersion)) $("#drop").hide(); //window.hasOwnProperty("ontouchstart")
 								$("#qrcode").attr("src", "https://api.galaxymimi.com/qrcode?margin=1&text=" + location.href);
@@ -181,7 +181,7 @@ td {
 <div class="container" style="margin-bottom: 30px;">
 	<h1>生成天象预告</h1>
 	<h2>让撰写《天象预告》实现社会主义四个现代化中技术现代化的自动化</h2>
-	<p>请在上方表格中勾选想要出现在天象报告中的项目，然后点击『生成』<br/>系统会自动获取相关图片及生成文字描述，并导出为Word文档。再点击『下载』即可保存到本地<br/>卫星过境信息默认按照推荐度排序，暂时不支持根据时间排序，请等待新功能<br/><b>警告：生成的Word文档为Office 2007兼容格式，秀米无法读取，请使用最新版Microsoft Word打开并选择『另存为』</b></p>
+	<p>请在上方表格中勾选想要出现在天象报告中的项目，然后点击『生成』<br>系统会自动获取相关图片及生成文字描述，并导出为Word文档。再点击『下载』即可保存到本地<br>卫星过境信息默认按照推荐度排序，暂时不支持根据时间排序，请等待新功能<br><b>警告：生成的Word文档为Office 2007兼容格式，秀米无法读取，请使用最新版Microsoft Word打开并选择『另存为』</b></p>
 	<p>其它天象可参考<a href="https://interesting-sky.china-vo.org" target="_blank">有趣天文奇观</a>网站</p>
 	<a class="btn btn-success" href="javascript:generate()">生成</a>
 	<a class="btn btn-info disabled" href="#" id="download">下载</a>
@@ -293,7 +293,7 @@ function getPic(src) {
 			canvas.height = this.height;
 			canvas.width = this.width;
 			ctx.drawImage(this, 0, 0);
-			resolve(`<img src="${canvas.toDataURL()}"/>`);
+			resolve(`<img src="${canvas.toDataURL()}">`);
 		}
 	});
 }
@@ -309,7 +309,7 @@ function getTable(src) {
 				var url = canvas.toDataURL("image/png");	
 				document.body.removeChild(canvas);
 				table.remove();
-				resolve(`<img src="${url}"/>`);
+				resolve(`<img src="${url}">`);
 			});
 		});
 	});
@@ -339,7 +339,7 @@ function generate() {
 		var content = `<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"/>
+<meta charset="UTF-8">
 </head>
 <body>
 ${values.join("\n")}
