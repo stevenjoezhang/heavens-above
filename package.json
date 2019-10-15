@@ -1,7 +1,7 @@
 {
 	"name": "heavens-above",
 	"version": "1.0.0",
-	"description": "Scripts for scraping the Heavens Above website",
+	"description": "Scripts for scraping the Heavens Above website.",
 	"main": "run.js",
 	"scripts": {
 		"start": "node run.js"
@@ -19,7 +19,7 @@
 		"Heavens Above",
 		"spider"
 	],
-	"author": "Mimi",
+	"author": "Mimi <stevenjoezhang@gmail.com> https://zhangshuqiao.org",
 	"license": "GPL-3.0-or-later",
 	"bugs": {
 		"url": "https://github.com/PKUPI/heavens-above/issues"
