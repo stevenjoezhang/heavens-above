@@ -229,7 +229,7 @@ function showData(target, type) {
 		},
 		success: function(data, status, xhr) {
 			var obj = JSON.parse(data);
-			if (type == 0) obj.forEach(function(ele, index) {
+			if (type === 0) obj.forEach(function(ele, index) {
 				var html = `<td><input type="checkbox" class="${target}" id="${ele[property[9]]}"></td>
 					<td>${ele[property[8]]}</td>
 					<td>${ele[property[1]]}</td>
@@ -239,19 +239,19 @@ function showData(target, type) {
 						<a href="download.html?target=${target}&id=${ele[property[9]]}" target="_blank">查看</a>
 					</td>`;
 				for (var j = 0; j < 7; j++) {
-					if (ele[property[3]][events[j]]) {
-						for (var k in ele[property[3]][events[j]]) {
-							html += `<td>${ele[property[3]][events[j]][k]}</td>`;
+					var eventArray = ele[property[3]][events[j]];
+					if (eventArray) {
+						for (var event of eventArray) {
+							html += `<td>${event}</td>`;
 						}
-					}
-					else {
+					} else {
 						for (var k = 0; k < 6; k++) {
 							html += "<td>N/A</td>";
 						}
 					}
 				}
 				if (index < 3) $("#" + target).append(`<tr class="green">${html}</tr>`);
-				else if (ele[property[8]] == 0) $("#" + target).append(`<tr class="grey">${html}</tr>`);
+				else if (ele[property[8]] === 0) $("#" + target).append(`<tr class="grey">${html}</tr>`);
 				else $("#" + target).append(`<tr>${html}</tr>`);
 			});
 			else obj.forEach(function(ele, index) {
@@ -306,7 +306,7 @@ function getTable(src) {
 			$("body").append(table);
 			html2canvas(table[0]).then(function(canvas) {
 				document.body.appendChild(canvas);
-				var url = canvas.toDataURL("image/png");	
+				var url = canvas.toDataURL("image/png");
 				document.body.removeChild(canvas);
 				table.remove();
 				resolve(`<img src="${url}">`);
@@ -317,14 +317,14 @@ function getTable(src) {
 
 function generate() {
 	var target = $("input:checked");
-	if (target.length == 0) {
+	if (target.length === 0) {
 		alert("没有选中项！");
 		return;
 	}
 	var queue = [], text1, text2;
 	target.each(function(i, o) {
 		temp = $(o).parents("tr").children();
-		if ($(o).attr("class") == "IridiumFlares") {
+		if ($(o).attr("class") === "IridiumFlares") {
 			text1 = temp.eq(2).text() + temp.eq(3).text() + " 铱星闪光";
 			text2 = "最大亮度 " + temp.eq(4).text() + "等";
 		}

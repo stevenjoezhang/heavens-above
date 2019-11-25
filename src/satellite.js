@@ -29,7 +29,7 @@ function getTable(config) {
 	var counter = config.counter || 0;
 	var opt = config.opt || 0;
 	var basedir = `${config.root}satellite${config.target}/`;
-	if (counter == 0) {
+	if (counter === 0) {
 		options = base.get_options(`PassSummary.aspx?satid=${config.target}&`);
 		fs.exists(basedir, (exists) => {
 			if (!exists) {
@@ -42,7 +42,7 @@ function getTable(config) {
 		options = base.post_options(`PassSummary.aspx?satid=${config.target}&`, opt);
 	}
 	request(options, (error, response, body) => { //请求成功的处理逻辑
-		if (!error && response.statusCode == 200) {
+		if (!error && response.statusCode === 200) {
 			var $ = cheerio.load(body, {
 				decodeEntities: false
 			});
@@ -60,7 +60,7 @@ function getTable(config) {
 			});
 			async.map(queue, function(temp, finish) {
 				request(base.image_options(temp[property[0]]), (error, response, body) => {
-					if (!error && response.statusCode == 200) {
+					if (!error && response.statusCode === 200) {
 						var $ = cheerio.load(body, {
 								decodeEntities: false
 							}),
@@ -68,13 +68,13 @@ function getTable(config) {
 							tbody = table.find("tbody"),
 							shift = 0,
 							score = 0,
-							flag = false; //防止i - shift == 2触发两次的问题
+							flag = false; //防止i - shift === 2触发两次的问题
 						for (var i = 0; i < tbody.find("tr").length; i++) {
-							if (tbody.find("tr").eq(i).find("td").eq(0).text() == "离开地影") { //Exits shadow
+							if (tbody.find("tr").eq(i).find("td").eq(0).text() === "离开地影") { //Exits shadow
 								temp[property[3]][events[5]] = {};
 								current = temp[property[3]][events[5]];
 								shift++;
-							} else if (tbody.find("tr").eq(i).find("td").eq(0).text() == "进入地影") { //Enters shadow
+							} else if (tbody.find("tr").eq(i).find("td").eq(0).text() === "进入地影") { //Enters shadow
 								temp[property[3]][events[6]] = {};
 								current = temp[property[3]][events[6]];
 								shift++;
@@ -85,7 +85,7 @@ function getTable(config) {
 							for (var j = 0; j < 6; j++) {
 								current[attribute[j]] = tbody.find("tr").eq(i).find("td").eq(j + 1).text();
 							}
-							if (i - shift == 2 && !flag) { //防止因为网站上表格顺序打乱而获得错误的数据
+							if (i - shift === 2 && !flag) { //防止因为网站上表格顺序打乱而获得错误的数据
 								flag = true;
 								var hours = parseInt(current[attribute[0]].split(":")[0]),
 									mag = parseFloat(current[attribute[4]]),
@@ -118,7 +118,7 @@ function getTable(config) {
 				//console.log(results); // results = [result1, result2, result3]
 				database = database.concat(results);
 				$("form").find("input").each((i, o) => {
-					if ($(o).attr("name") == "ctl00$cph1$btnPrev" || $(o).attr("name") == "ctl00$cph1$visible") return;
+					if ($(o).attr("name") === "ctl00$cph1$btnPrev" || $(o).attr("name") === "ctl00$cph1$visible") return;
 					else next += `&${$(o).attr("name")}=${$(o).attr("value")}`;
 				});
 				next += "&ctl00$cph1$visible=radioVisible";

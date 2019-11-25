@@ -19,7 +19,7 @@
 function getUrlParam(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 	var r = window.location.search.substr(1).match(reg);
-	return (r != null) ? decodeURI(r[2]) : null;
+	return r ? decodeURI(r[2]) : null;
 }
 var target = getUrlParam("target"),
 	id = getUrlParam("id"),

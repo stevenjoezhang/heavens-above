@@ -11,7 +11,7 @@ function getTable(config) {
 	var counter = config.counter || 0;
 	var opt = config.opt || 0;
 	var basedir = config.root + "IridiumFlares/";
-	if (counter == 0) {
+	if (counter === 0) {
 		options = base.get_options("IridiumFlares.aspx?");
 		fs.exists(basedir, (exists) => {
 			if (!exists) {
@@ -24,7 +24,7 @@ function getTable(config) {
 		options = base.post_options("IridiumFlares.aspx?", opt);
 	}
 	request(options, (error, response, body) => { //请求成功的处理逻辑
-		if (!error && response.statusCode == 200) {
+		if (!error && response.statusCode === 200) {
 			var $ = cheerio.load(body, {
 				decodeEntities: false
 			});
@@ -42,7 +42,7 @@ function getTable(config) {
 			async.map(queue, function(temp, finish) {
 				request(base.iridium_options(temp["url"]), (error, response, body) => {
 					//console.log(response.statusCode)
-					if (!error && response.statusCode == 200) { //在无SessionID时返回500
+					if (!error && response.statusCode === 200) { //在无SessionID时返回500
 						var $ = cheerio.load(body, {
 							decodeEntities: false
 						});
@@ -79,7 +79,7 @@ function getTable(config) {
 				//console.log(results); // results = [result1, result2, result3]
 				database = database.concat(results);
 				$("form").find("input").each((i, o) => {
-					if ($(o).attr("name") == "ctl00$cph1$btnPrev" || $(o).attr("name") == "ctl00$cph1$visible") return;
+					if ($(o).attr("name") === "ctl00$cph1$btnPrev" || $(o).attr("name") === "ctl00$cph1$visible") return;
 					else next += `&${$(o).attr("name")}=${$(o).attr("value")}`;
 				});
 				next += "&ctl00$cph1$visible=radioVisible";
