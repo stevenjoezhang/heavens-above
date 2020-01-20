@@ -13,13 +13,11 @@ function getTable(config) {
 	var basedir = config.root + "IridiumFlares/";
 	if (counter === 0) {
 		options = base.get_options("IridiumFlares.aspx?");
-		fs.exists(basedir, (exists) => {
-			if (!exists) {
-				fs.mkdir(basedir, (err) => {
-					if (err) console.log(err);
-				});
-			}
-		});
+		if (!fs.existsSync(basedir)) {
+			fs.mkdir(basedir, (err) => {
+				if (err) console.log(err);
+			});
+		}
 	} else {
 		options = base.post_options("IridiumFlares.aspx?", opt);
 	}

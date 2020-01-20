@@ -31,13 +31,11 @@ function getTable(config) {
 	var basedir = `${config.root}satellite${config.target}/`;
 	if (counter === 0) {
 		options = base.get_options(`PassSummary.aspx?satid=${config.target}&`);
-		fs.exists(basedir, (exists) => {
-			if (!exists) {
-				fs.mkdir(basedir, (err) => {
-					if (err) console.log(err);
-				});
-			}
-		});
+		if (!fs.existsSync(basedir)) {
+			fs.mkdir(basedir, (err) => {
+				if (err) console.log(err);
+			});
+		}
 	} else {
 		options = base.post_options(`PassSummary.aspx?satid=${config.target}&`, opt);
 	}
