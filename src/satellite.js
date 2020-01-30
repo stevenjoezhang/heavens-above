@@ -48,13 +48,13 @@ function getTable(config) {
 			var tbody = $("form").find("table.standardTable tbody");
 			var queue = [];
 			tbody.find("tr").each((i, o) => {
-				var temp = {};
-				temp[property[0]] = "https://www.heavens-above.com/" + $(o).find("td").eq(0).find("a").attr("href").replace("type=V", "type=A");
-				temp[property[1]] = $(o).find("td").eq(0).find("a").text();
-				temp[property[2]] = $(o).find("td").eq(1).text();
-				temp[property[3]] = {};
-				temp[property[4]] = $(o).find("td").eq(11).text();
-				queue.push(temp);
+				queue.push({
+					[property[0]]: "https://www.heavens-above.com/" + $(o).find("td").eq(0).find("a").attr("href").replace("type=V", "type=A"),
+					[property[1]]: $(o).find("td").eq(0).find("a").text(),
+					[property[2]]: $(o).find("td").eq(1).text(),
+					[property[3]]: {},
+					[property[4]]: $(o).find("td").eq(11).text()
+				});
 			});
 			async.map(queue, function(temp, finish) {
 				request(base.image_options(temp[property[0]]), (error, response, body) => {
