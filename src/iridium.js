@@ -21,7 +21,6 @@ function getTable(config) {
 		options = utils.post_options("IridiumFlares.aspx?", opt);
 	}
 	request(options, (error, response, body) => {
-		console.log(body)
 		if (error || response.statusCode !== 200) return;
 		var $ = cheerio.load(body, {
 			decodeEntities: false
@@ -40,11 +39,11 @@ function getTable(config) {
 		function factory(temp) {
 			return new Promise((resolve, reject) => {
 				request(utils.iridium_options(temp["url"]), (error, response, body) => {
-					console.log(body)
 					if (error || response.statusCode !== 200) { //在无SessionID时返回500
 						reject(error);
 						return;
 					}
+					console.log("Success", temp);
 					var $ = cheerio.load(body, {
 						decodeEntities: false
 					});

@@ -9,7 +9,7 @@ var location = [39.9042, 116.4074, "%E5%8C%97%E4%BA%AC%E5%B8%82", 52, "ChST"];
 
 satellite.getTable({
 	target: 25544,
-	pages: 1,
+	pages: 4,
 	root: "./public/data/"
 }); //ISS
 /*
