@@ -186,7 +186,7 @@ td {
 <div class="container" style="margin-bottom: 30px;">
 	<h1>生成天象预告</h1>
 	<h2>让撰写《天象预告》实现社会主义四个现代化中技术现代化的自动化</h2>
-	<p>请在上方表格中勾选想要出现在天象报告中的项目，然后点击『生成』<br>系统会自动获取相关图片及生成文字描述，并导出为Word文档。再点击『下载』即可保存到本地<br>卫星过境信息默认按照推荐度排序，暂时不支持根据时间排序，请等待新功能<br><b>警告：生成的Word文档为Office 2007兼容格式，秀米无法读取，请使用最新版Microsoft Word打开并选择『另存为』</b></p>
+	<p>请在上方表格中勾选想要出现在天象报告中的项目，然后点击「生成」<br>系统会自动获取相关图片及生成文字描述，并导出为Word文档。再点击「下载」即可保存到本地<br>卫星过境信息默认按照推荐度排序，暂时不支持根据时间排序，请等待新功能<br><b>警告：生成的Word文档为Office 2007兼容格式，秀米无法读取，请使用最新版Microsoft Word打开并选择「另存为」</b></p>
 	<p>其它天象可参考<a href="https://interesting-sky.china-vo.org" target="_blank">有趣天文奇观</a>网站</p>
 	<a class="btn btn-success" href="javascript:generate()">生成</a>
 	<a class="btn btn-info disabled" href="#" id="download">下载</a>
@@ -244,10 +244,9 @@ function showData(target, type) {
 						<a href="download.html?target=${target}&id=${ele[property[9]]}" target="_blank">查看</a>
 					</td>`;
 				for (var j = 0; j < 7; j++) {
-					var eventArray = ele[property[3]][events[j]];
-					if (eventArray) {
-						for (var event of eventArray) {
-							html += `<td>${event}</td>`;
+					if (ele[property[3]][events[j]]) {
+						for (var k in ele[property[3]][events[j]]) {
+							html += `<td>${ele[property[3]][events[j]][k]}</td>`;
 						}
 					} else {
 						for (var k = 0; k < 6; k++) {
