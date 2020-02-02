@@ -1,9 +1,11 @@
-exports.getTimestamp = getTimestamp;
-exports.post_options = post_options;
-exports.get_options = get_options;
-exports.image_options = image_options;
-exports.iridium_options = iridium_options;
-exports.md5 = hex_md5;
+module.exports = {
+	getTimestamp,
+	post_options,
+	get_options,
+	image_options,
+	iridium_options,
+	md5: hex_md5
+};
 
 function getTimestamp(time) {
 	var arr = time.split(":");
