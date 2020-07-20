@@ -87,6 +87,4 @@ dist/
 
 .DS_Store
 
-public/data/*
-!public/data/.gitkeep
-public/old/
+public/data
