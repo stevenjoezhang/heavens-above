@@ -7,7 +7,7 @@ const property = ["url", "date", "brightness", "events", "passType", "image", "s
 const events = ["rise", "reachAltitude10deg", "highestPoint", "dropBelowAltitude10deg", "set", "exitShadow", "enterShadow"];
 const attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sunAltitude"];
 
-var compare = [
+const compare = [
 	function(a, b) {
 		return a[property[6]][1] >= b[property[6]][1] ? 1 : -1; //星等（越小越好）
 	},
@@ -21,13 +21,13 @@ var compare = [
 		return a[property[7]] <= b[property[7]] ? 1 : -1; //持续时间（越大越好）
 	}
 ];
-var weight = [9.5, 6, 6.5, 6.5];
+const weight = [9.5, 6, 6.5, 6.5];
 
 function getTable(config) {
-	var database = config.database || [];
-	var counter = config.counter || 0;
-	var opt = config.opt || 0;
-	var basedir = `${config.root}satellite${config.target}/`;
+	let database = config.database || [];
+	let counter = config.counter || 0;
+	const opt = config.opt || 0;
+	const basedir = `${config.root}satellite${config.target}/`;
 	if (counter === 0) {
 		options = utils.get_options(`PassSummary.aspx?satid=${config.target}&`);
 		if (!fs.existsSync(basedir)) {
@@ -40,12 +40,12 @@ function getTable(config) {
 	}
 	request(options, (error, response, body) => {
 		if (error || response.statusCode !== 200) return;
-		var $ = cheerio.load(body, {
+		const $ = cheerio.load(body, {
 			decodeEntities: false
 		});
-		var next = "__EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=";
-		var tbody = $("form").find("table.standardTable tbody");
-		var queue = [];
+		let next = "__EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=";
+		const tbody = $("form").find("table.standardTable tbody");
+		const queue = [];
 		tbody.find("tr").each((i, o) => {
 			queue.push({
 				[property[0]]: "https://www.heavens-above.com/" + $(o).find("td").eq(0).find("a").attr("href").replace("type=V", "type=A"),
@@ -58,19 +58,22 @@ function getTable(config) {
 		function factory(temp) {
 			return new Promise((resolve, reject) => {
 				request(utils.image_options(temp[property[0]]), (error, response, body) => {
-					if (error || response.statusCode !== 200) {
+                    if (error || response.statusCode !== 200) {
 						reject(error);
 						return;
 					}
-					console.log("Success", temp);
-					var $ = cheerio.load(body, {
+                    console.log("Success", temp);
+
+                    const $ = cheerio.load(body, {
 						decodeEntities: false
-					}),
-						table = $("form").find("table.standardTable"),
-						tbody = table.find("tbody"),
-						shift = 0,
-						flag = false; //防止i - shift === 2触发两次的问题
-					for (var i = 0; i < tbody.find("tr").length; i++) {
+					}); //防止i - shift === 2触发两次的问题
+
+                    const table = $("form").find("table.standardTable");
+                    const tbody = table.find("tbody");
+                    let shift = 0;
+					let flag = false;
+					const data = [];
+                    for (let i = 0; i < tbody.find("tr").length; i++) {
 						if (tbody.find("tr").eq(i).find("td").eq(0).text() === "离开地影") { //Exits shadow
 							temp[property[3]][events[5]] = {};
 							current = temp[property[3]][events[5]];
@@ -83,35 +86,35 @@ function getTable(config) {
 							temp[property[3]][events[i - shift]] = {};
 							current = temp[property[3]][events[i - shift]];
 						}
-						for (var j = 0; j < 6; j++) {
+						for (let j = 0; j < 6; j++) {
 							current[attribute[j]] = tbody.find("tr").eq(i).find("td").eq(j + 1).text();
 						}
 						if (i - shift === 2 && !flag) { //防止因为网站上表格顺序打乱而获得错误的数据
 							flag = true;
-							var hours = parseInt(current[attribute[0]].split(":")[0]),
-								mag = parseFloat(current[attribute[4]]),
-								sunalt = parseFloat(current[attribute[5]].split("°")[0]),
-								alt = parseInt(current[attribute[1]].split("°")[0]);
+							data[0] = parseInt(current[attribute[0]].split(":")[0]);
+							data[1] = parseFloat(current[attribute[4]]);
+							data[2] = parseFloat(current[attribute[5]].split("°")[0]);
+							data[3] = parseInt(current[attribute[1]].split("°")[0]);
 						}
 					}
-					var startTime = utils.getTimestamp(temp[property[3]][events[5]] ? temp[property[3]][events[5]][attribute[0]] : temp[property[3]][events[1]][attribute[0]]);
-					var endTime = utils.getTimestamp(temp[property[3]][events[6]] ? temp[property[3]][events[6]][attribute[0]] : temp[property[3]][events[3]][attribute[0]]);
-					temp[property[5]] = "https://www.heavens-above.com/" + $("#ctl00_cph1_imgViewFinder").attr("src") //.replace("size=800", "size=1600");
-					temp[property[6]] = [hours, mag, sunalt, alt];
-					temp[property[7]] = endTime - startTime;
-					temp[property[8]] = 0;
-					var id = utils.md5(Math.random().toString()) //temp[property[1]] + temp[property[7]];
-					temp[property[9]] = id;
-					fs.appendFile(basedir + id + ".html", table.html(), (err) => {
+                    const startTime = utils.getTimestamp(temp[property[3]][events[5]] ? temp[property[3]][events[5]][attribute[0]] : temp[property[3]][events[1]][attribute[0]]);
+                    const endTime = utils.getTimestamp(temp[property[3]][events[6]] ? temp[property[3]][events[6]][attribute[0]] : temp[property[3]][events[3]][attribute[0]]);
+                    temp[property[5]] = "https://www.heavens-above.com/" + $("#ctl00_cph1_imgViewFinder").attr("src") //.replace("size=800", "size=1600");
+                    temp[property[6]] = data;
+                    temp[property[7]] = endTime - startTime;
+                    temp[property[8]] = 0;
+                    const id = utils.md5(Math.random().toString()); //temp[property[1]] + temp[property[7]];
+                    temp[property[9]] = id;
+                    fs.appendFile(basedir + id + ".html", table.html(), (err) => {
 						if (err) console.log(err);
 					}); //保存表格
-					request.get(utils.image_options(temp[property[5]])).pipe(fs.createWriteStream(basedir + id + ".png", {
+                    request.get(utils.image_options(temp[property[5]])).pipe(fs.createWriteStream(basedir + id + ".png", {
 						"flags": "a"
 					})).on("error", (err) => {
 						console.error(err);
 					}); //下载图片
-					resolve(temp);
-				});
+                    resolve(temp);
+                });
 			});
 		}
 		Promise.allSettled(queue.map(temp => factory(temp))).then(results => {
@@ -133,7 +136,7 @@ function getTable(config) {
 					database
 				});
 			} else {
-				for (var i = 0; i < 4; i++) {
+				for (let i = 0; i < 4; i++) {
 					database.sort(compare[i]);
 					database = database.map((ele, index) => {
 						ele[property[8]] += 100 * (1 - index / database.length) * weight[i];

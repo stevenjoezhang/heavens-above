@@ -6,10 +6,10 @@ const utils = require("./utils");
 const eventsIridium = ["brightness", "altitude", "azimuth", "satellite", "distanceToFlareCentre", "brightnessAtFlareCentre", "date", "time", "distanceToSatellite", "AngleOffFlareCentre-line", "flareProducingAntenna", "sunAltitude", "angularSeparationFromSun", "image", "id"];
 
 function getTable(config) {
-	var database = config.database || [];
-	var counter = config.counter || 0;
-	var opt = config.opt || 0;
-	var basedir = config.root + "IridiumFlares/";
+	let database = config.database || [];
+	let counter = config.counter || 0;
+	const opt = config.opt || 0;
+	const basedir = config.root + "IridiumFlares/";
 	if (counter === 0) {
 		options = utils.get_options("IridiumFlares.aspx?");
 		if (!fs.existsSync(basedir)) {
@@ -22,15 +22,15 @@ function getTable(config) {
 	}
 	request(options, (error, response, body) => {
 		if (error || response.statusCode !== 200) return;
-		var $ = cheerio.load(body, {
+		const $ = cheerio.load(body, {
 			decodeEntities: false
 		});
-		var next = "__EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=";
-		var tbody = $("form").find("table.standardTable tbody");
-		var queue = [];
+		let next = "__EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=";
+		const tbody = $("form").find("table.standardTable tbody");
+		const queue = [];
 		tbody.find("tr").each((i, o) => {
-			var temp = {};
-			for (var i = 0; i < 6; i++) {
+			const temp = {};
+			for (let i = 0; i < 6; i++) {
 				temp[eventsIridium[i]] = $(o).find("td").eq(i + 1).text();
 			}
 			temp["url"] = "https://www.heavens-above.com/" + $(o).find("td").eq(0).find("a").attr("href").replace("type=V", "type=A");
@@ -44,11 +44,10 @@ function getTable(config) {
 						return;
 					}
 					console.log("Success", temp);
-					var $ = cheerio.load(body, {
+					const $ = cheerio.load(body, {
 						decodeEntities: false
 					});
-					var table = $("form").find("table.standardTable"),
-						tr = table.find("tbody tr");
+					const table = $("form").find("table.standardTable"), tr = table.find("tbody tr");
 					[
 						[6, 0],
 						[7, 1],
@@ -61,7 +60,7 @@ function getTable(config) {
 						temp[eventsIridium[ele[0]]] = tr.eq(ele[1]).find("td").eq(1).text();
 					});
 					temp[eventsIridium[13]] = "https://www.heavens-above.com/" + $("#ctl00_cph1_imgSkyChart").attr("src") //.replace("size=800", "size=1600");,
-					var id = utils.md5(Math.random().toString()) //temp[eventsIridium[6]];
+					const id = utils.md5(Math.random().toString()); //temp[eventsIridium[6]];
 					temp[eventsIridium[14]] = id;
 					fs.appendFile(basedir + id + ".html", table.html(), (err) => {
 						if (err) console.log(err);
