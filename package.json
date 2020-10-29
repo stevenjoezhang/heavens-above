@@ -23,5 +23,8 @@
 	"bugs": {
 		"url": "https://github.com/PKUPI/heavens-above/issues"
 	},
-	"homepage": "https://github.com/PKUPI/heavens-above#readme"
+	"homepage": "https://github.com/PKUPI/heavens-above#readme",
+	"engines": {
+		"node": ">=12.10.0"
+	}
 }

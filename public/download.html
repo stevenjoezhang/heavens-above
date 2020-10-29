@@ -16,13 +16,9 @@
 <table class="standardTable">
 </table>
 <script>
-function getUrlParam(name) {
-	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-	var r = window.location.search.substr(1).match(reg);
-	return (r != null) ? decodeURI(r[2]) : null;
-}
-var target = getUrlParam("target"),
-	id = getUrlParam("id"),
+var param = new URL(location.href).searchParams,
+	target = param.get("target"),
+	id = param.get("id"),
 	img = `data/${target}/${id}.png`,
 	table = $("table")[0];
 $("a").attr("href", img).attr("download", id);
