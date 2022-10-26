@@ -225,15 +225,9 @@ function appendThead() {
 }
 
 function showData(target, type) {
-	var file = `data/${target}/index.json`;
-	$.ajax(file, {
-		type: "get",
-		dataType: "text",
-		error: function(xhr, status, error) {
-			console.log("Error");
-		},
-		success: function(data, status, xhr) {
-			var obj = JSON.parse(data);
+	fetch(`data/${target}/index.json`)
+		.then(response => response.json())
+		.then(obj => {
 			if (type === 0) obj.forEach(function(ele, index) {
 				var html = `<td><input type="checkbox" class="${target}" id="${ele[property[9]]}"></td>
 					<td>${ele[property[8]]}</td>
@@ -273,8 +267,10 @@ function showData(target, type) {
 				}
 				$("#" + target).append(`<tr>${html}</tr>`);
 			});
-		}
-	});
+		})
+		.catch(err => {
+			console.log("Error");
+		});
 }
 
 for (var i = 0; i < 7; i++) appendThead();
@@ -303,20 +299,21 @@ function getPic(src) {
 }
 
 function getTable(src) {
-	return new Promise((resolve, reject) => {
-		$.get(src, function(result) {
+	return fetch(src)
+		.then(response => response.text())
+		.then(result => {
 			var table = $(`<table class="standardTable"></table>`);
 			table.html(result);
 			$("body").append(table);
-			html2canvas(table[0]).then(function(canvas) {
-				document.body.appendChild(canvas);
-				var url = canvas.toDataURL("image/png");
-				document.body.removeChild(canvas);
-				table.remove();
-				resolve(`<img src="${url}">`);
-			});
+			return html2canvas(table[0])
+				.then(function(canvas) {
+					document.body.appendChild(canvas);
+					var url = canvas.toDataURL("image/png");
+					document.body.removeChild(canvas);
+					table.remove();
+					return `<img src="${url}">`;
+				});
 		});
-	});
 }
 
 function generate() {

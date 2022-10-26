@@ -23,24 +23,26 @@ var param = new URL(location.href).searchParams,
 	table = $("table")[0];
 $("a").attr("href", img).attr("download", id);
 $("img").attr("src", img);
-$.get(`data/${target}/${id}.html`, function(result) {
-	$("table").html(result);
-	html2canvas(table).then(function(canvas) {
-		document.body.appendChild(canvas);
-		var img = new Image(),
-			url = canvas.toDataURL("image/png");
-		img.src = url;
-		img.onload = function() {
-			var anchor = document.createElement("a");
-			anchor.href = url;
-			anchor.download = id + "_data";
-			document.body.appendChild(anchor);
-			anchor.appendChild(img);
-			document.body.removeChild(canvas);
-			document.body.removeChild(table);
-		}
+fetch(`data/${target}/${id}.html`)
+	.then(response => response.text())
+	.then(result => {
+		$("table").html(result);
+		html2canvas(table).then(function(canvas) {
+			document.body.appendChild(canvas);
+			var img = new Image(),
+				url = canvas.toDataURL("image/png");
+			img.src = url;
+			img.onload = function() {
+				var anchor = document.createElement("a");
+				anchor.href = url;
+				anchor.download = id + "_data";
+				document.body.appendChild(anchor);
+				anchor.appendChild(img);
+				document.body.removeChild(canvas);
+				document.body.removeChild(table);
+			}
+		});
 	});
-});
 </script>
 </body>
 </html>
